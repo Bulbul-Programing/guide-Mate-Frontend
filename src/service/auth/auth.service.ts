@@ -2,7 +2,9 @@
 
 import { UserRole } from "@/lib/auth-utils";
 import { serverFetch } from "@/lib/server-fetch";
+import { zodValidator } from "@/lib/zodValidator";
 import { hostImages } from "@/utils/ImageUpload";
+import { changePasswordSchema } from "@/zod/auth.validation";
 import { revalidateTag } from "next/cache";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -19,17 +21,22 @@ export async function updateMyProfile(formData: FormData, userRole: UserRole) {
         const updatePayload = data
 
         // Add the file if it exists
-        const file = formData.get('file');
-        if (file) {
+        const file = formData.get('file') as File;
+
+        if (file?.size > 0) {
             const uploadPhoto = await hostImages([file as File]);
 
             updatePayload.profilePhoto = uploadPhoto[0]
         }
 
         updatePayload.language = updatePayload.language.split(',')
-        updatePayload.pricePerDay = Number(updatePayload.pricePerDay)
-        updatePayload.pricePerDay = Number(updatePayload.pricePerDay)
-        updatePayload.experienceYears = Number(updatePayload.experienceYears)
+
+        if (updatePayload.pricePerDay) {
+            updatePayload.pricePerDay = Number(updatePayload.pricePerDay)
+        }
+        if (updatePayload.experienceYears) {
+            updatePayload.experienceYears = Number(updatePayload.experienceYears)
+        }
 
         const res = await serverFetch.put(`/user/update`, {
             body: JSON.stringify(updatePayload),
@@ -39,7 +46,6 @@ export async function updateMyProfile(formData: FormData, userRole: UserRole) {
         })
 
         const result = await res.json();
-
         if (result.success) {
             revalidateTag("user-info", { expire: 0 });
         }
@@ -49,6 +55,61 @@ export async function updateMyProfile(formData: FormData, userRole: UserRole) {
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+export async function changePassword(_prevState: any, formData: FormData) {
+
+    const validationPayload = {
+        oldPassword: formData.get("oldPassword") as string,
+        newPassword: formData.get("newPassword") as string,
+        confirmPassword: formData.get("confirmPassword") as string,
+    };
+
+    // Validate
+    const validatedPayload = zodValidator(
+        validationPayload,
+        changePasswordSchema
+    );
+    console.log(validatedPayload);
+    if (!validatedPayload.success && validatedPayload.errors) {
+        return {
+            success: false,
+            message: "Validation failed",
+            formData: validationPayload,
+            errors: validatedPayload.errors,
+        };
+    }
+
+    try {
+        // API Call
+        const response = await serverFetch.put("/auth/change-password", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                oldPassword: validationPayload.oldPassword,
+                newPassword: validationPayload.newPassword,
+                confirmPassword: validationPayload.confirmPassword
+            }),
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message || "Password change failed");
+        }
+
+        return {
+            success: true,
+            message: result.message || "Password changed successfully!",
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.message || "Something went wrong",
+            formData: validationPayload,
         };
     }
 }
