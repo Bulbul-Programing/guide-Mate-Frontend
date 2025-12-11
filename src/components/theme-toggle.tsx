@@ -10,7 +10,7 @@ export default function ThemeToggle() {
     const currentTheme = theme === "system" ? systemTheme : theme;
 
     if (!currentTheme) return null;
-    console.log(systemTheme, theme);
+
     return (
         <div className="border rounded-full">
             <Toggle

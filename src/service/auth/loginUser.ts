@@ -100,16 +100,16 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
 
         const userRole: UserRole = verifiedToken.role;
 
-        if (redirectTo) {
-            const requestedPath = redirectTo.toString();
-            if (isValidRedirectForRole(requestedPath, userRole)) {
-                redirect(`${requestedPath}?loggedIn=true`);
-            } else {
-                redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
-            }
-        } else {
-            redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
-        }
+        // if (redirectTo) {
+        //     const requestedPath = redirectTo.toString();
+        //     if (isValidRedirectForRole(requestedPath, userRole)) {
+        //         redirect(`${requestedPath}?loggedIn=true`);
+        //     } else {
+        //         redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
+        //     }
+        // } else {
+        //     redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
+        // }
     } catch (error: any) {
         if (error?.digest?.startsWith('NEXT_REDIRECT')) {
             throw error;

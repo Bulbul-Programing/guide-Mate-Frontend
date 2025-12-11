@@ -22,90 +22,46 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { toast } from "sonner"
 import UserAvatarSkeleton from "@/Skeleton/UserAvatarSkeleton"
+import { UserInfo } from "@/types/UserInfo"
+import { useAuthToken } from "@/lib/useAuthToken"
+import UserDropdown from "./UserDropdown"
 
-export default function UserMenu() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any>({})
-  const [loading, setLoading] = useState(false)
-  const [logoutRef, setLogoutRef] = useState(false)
-  // const { data: session, status } = useSession()
-  const [status, setStatus] = useState('')
+interface NavbarAuthButtonsProps {
+  initialHasToken: boolean;
+  initialUserInfo: UserInfo | null;
+  initialDashboardRoute: string;
+}
 
-  // useEffect(() => {
-  //   setLoading(true)
-  //   const fetchUser = async () => {
-  //     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me/${session?.user?.email}`, {
-  //       method: "GET"
-  //     })
+export default function UserMenu({
+  initialHasToken,
+  initialUserInfo,
+  initialDashboardRoute,
+}: NavbarAuthButtonsProps) {
+  // Detect client-side auth state changes on navigation
+  const clientHasToken = useAuthToken();
 
-  //     const data = await res.json()
-  //     setLoading(false)
-  //     setUser(data.data)
-  //   }
+  // Use client token state if available, otherwise fall back to server state
+  const hasToken = clientHasToken || initialHasToken;
+  const userInfo = hasToken ? initialUserInfo : null;
+  const dashboardRoute = initialDashboardRoute;
 
-  //   fetchUser()
-  // }, [logoutRef, session])
-
-  const handleLogout = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
-      method: "POST",
-      credentials: "include"
-    })
-    const data = await res.json()
-    if (data.success) {
-      // signOut({ redirect: false })
-      toast.success(data.massage || "some ")
-      setLogoutRef(!logoutRef)
-    }
+  if (hasToken && userInfo) {
+    return (
+      <>
+        {/* <Link href={dashboardRoute}>
+          <Button variant="outline" className="gap-2">
+            <LayoutDashboard className="h-4 w-4" />
+            Dashboard
+          </Button>
+        </Link> */}
+        <UserDropdown userInfo={userInfo} />
+      </>
+    );
   }
-  if (status === "loading" || loading) return <UserAvatarSkeleton />
-
 
   return (
-    <>
-      {
-        user?.email ? <div>
-          {
-            (user?.role === 'ADMIN' || user.role === 'OWNER' || user.role === 'USER') && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-                    <Avatar>
-                      <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="max-w-64 bg-primary-foreground" align="end">
-                  <DropdownMenuLabel className="flex min-w-0 flex-col">
-                    <span className="text-foreground truncate text-sm font-medium">
-                      {user.name}
-                    </span>
-                    <span className="text-muted-foreground truncate text-xs font-normal">
-                      {user.email}
-                    </span>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <LayoutDashboard size={16} className="opacity-60" aria-hidden="true" />
-                      <Link href={`/dashboard/project`}>Dashboard</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Button size='sm' className="w-full cursor-pointer" onClick={handleLogout}><LogOutIcon size={16} className="opacity-60" aria-hidden="true" /> Logout</Button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )
-          }
-        </div> : <Link
-          className="px-4 py-1 rounded-md bg-accent transition-all font-medium"
-          href="/login"
-        >
-          Log In
-        </Link>
-      }
-    </>
-  )
+    <Link href="/login">
+      <Button>Login</Button>
+    </Link>
+  );
 }

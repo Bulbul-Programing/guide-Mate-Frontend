@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { NavigationMenu, NavigationMenuList } from '../ui/navigation-menu';
@@ -9,6 +9,9 @@ import LargeDeviceNavigation from './LargeDeviceNavigation';
 import ThemeToggle from '../theme-toggle';
 import UserMenu from '../user-menu';
 import { HomeIcon, NewspaperIcon, PresentationIcon, UserIcon } from 'lucide-react';
+import { getCookie } from '@/service/auth/tokenHandlers';
+import { getUserInfo } from '@/service/auth/getUserInfo';
+import { getDefaultDashboardRoute } from '@/lib/auth-utils';
 
 export const navigationLinks = [
     { href: "/", label: "Home", icon: HomeIcon, active: true },
@@ -17,11 +20,16 @@ export const navigationLinks = [
     { href: "/project", label: "Project", icon: PresentationIcon }
 ]
 
-const Navbar = () => {
+const Navbar = async () => {
+    const accessToken = await getCookie("accessToken");
+    const userInfo = accessToken ? await getUserInfo() : null;
+    const dashboardRoute = userInfo
+        ? getDefaultDashboardRoute(userInfo.role)
+        : "/";
     return (
         <div >
             <div className="relative z-40">
-                <header className=" border-b border-secondary backdrop-blur-[2px] md:px-6 absolute top-0 w-full">
+                <header className=" border-secondary backdrop-blur-lg md:px-6 absolute top-0 w-full">
                     <div className="flex bg-transparent h-16 items-center justify-between gap-4">
                         {/* Left side */}
                         <div className="flex items-center gap-2">
@@ -70,8 +78,9 @@ const Navbar = () => {
                             </Popover>
                             <div className="flex items-center gap-6">
                                 {/* Logo */}
-                                <Link href='/'>
+                                <Link className='flex items-center' href='/'>
                                     <Logo />
+                                    <h3 className='text-2xl font-black'>Guide Mate</h3>
                                 </Link>
                                 {/* Desktop navigation - icon only */}
 
@@ -88,7 +97,11 @@ const Navbar = () => {
                         <div className="flex items-center gap-2">
                             {/* Theme toggle */}
                             <ThemeToggle />
-                            <UserMenu />
+                            <UserMenu
+                                initialHasToken={!!accessToken}
+                                initialUserInfo={userInfo}
+                                initialDashboardRoute={dashboardRoute}
+                            />
                         </div>
                     </div>
                 </header>

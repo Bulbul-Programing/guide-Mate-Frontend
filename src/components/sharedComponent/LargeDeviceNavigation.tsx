@@ -13,7 +13,7 @@ const LargeDeviceNavigation = () => {
                 <NavigationMenuItem key={link.label}>
                     <NavigationMenuLink
                         asChild
-                        className={`${pathName === link.href ? 'bg-sidebar-accent text-foreground' : 'text-background'}  flex items-center justify-center p-1.5`}
+                        className={`${pathName === link.href ? 'bg-sidebar-accent text-foreground' : ''}  flex items-center justify-center p-1.5`}
                     >
                         <Link href={link.href}>{link.label}</Link>
                     </NavigationMenuLink>
