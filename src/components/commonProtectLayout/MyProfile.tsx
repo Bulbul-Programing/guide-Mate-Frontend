@@ -54,7 +54,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
 
         startTransition(async () => {
             const result = await updateMyProfile(formData, userInfo.role);
-            console.log(result);
+
             if (result.success) {
                 toast.success(result.message)
                 setSuccess(result.message);
@@ -74,7 +74,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
             .slice(0, 2)
             .toUpperCase();
     };
-    console.log(previewImage);
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -113,7 +113,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
                                     ) : (
                                         <Avatar>
                                             <AvatarFallback className="text-3xl">
-                                                {getInitials(userInfo.name)}
+                                                {getInitials(userInfo?.name || 'B')}
                                             </AvatarFallback>
                                         </Avatar>
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import BookingStatusBadgeCell from "@/components/shared/BookingStatusBadgeCell";
 import { DateCell } from "@/components/shared/cell/DateCell";
 import { StatusBadgeCell } from "@/components/shared/cell/StatusBadgeCell";
 import { UserInfoCell } from "@/components/shared/cell/UserInfoCell";
@@ -53,7 +54,8 @@ export const spotsColumns: Column<TGuideSpot>[] = [
   },
   {
     header: "Active",
-    accessor: (spot) => <StatusBadgeCell isDeleted={!spot.isActive} />,
+    accessor: (spot) =>
+      <BookingStatusBadgeCell status={spot.isActive ? 'COMPLETED' : "CANCELLED"} />,
     sortKey: "isActive",
   },
   {

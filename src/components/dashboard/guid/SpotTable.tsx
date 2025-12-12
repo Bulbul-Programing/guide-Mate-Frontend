@@ -9,6 +9,7 @@ import { spotsColumns } from "./spotsColumns";
 import { TGuideSpot } from "@/types/GuideSpot";
 import SpotViewDetailDialog from "./SpotViewDetailDialog";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
+import { deleteSpot } from "@/service/spotManagement/spotManagement";
 
 interface SpotTableProps {
   spots: TGuideSpot[];
@@ -44,16 +45,16 @@ const SpotTable = ({ spots }: SpotTableProps) => {
     if (!deletingSpot) return;
 
     setIsDeleting(true);
-    // const result = await softDeleteSpot(deletingSpot.id);
-    // setIsDeleting(false);
+    const result = await deleteSpot(deletingSpot.id);
+    setIsDeleting(false);
 
-    // if (result.success) {
-    //   toast.success(result.message || "Spot deleted successfully");
-    //   setDeletingSpot(null);
-    //   handleRefresh();
-    // } else {
-    //   toast.error(result.message || "Failed to delete spot");
-    // }
+    if (result.success) {
+      toast.success(result.message || "Spot deleted successfully");
+      setDeletingSpot(null);
+      handleRefresh();
+    } else {
+      toast.error(result.message || "Failed to delete spot");
+    }
   };
 
   return (

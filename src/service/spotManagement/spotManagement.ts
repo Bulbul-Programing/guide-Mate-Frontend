@@ -5,6 +5,7 @@ import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
 import { hostImages } from "@/utils/ImageUpload";
 import { createSpotValidationSchema, createSpotValidationSchemaForServer } from "@/zod/Spot/createSpotValidationSchema";
+import { revalidateTag } from "next/cache";
 
 export const createSpot = async (_currentState: any, formData: FormData): Promise<any> => {
     try {
@@ -55,7 +56,9 @@ export const createSpot = async (_currentState: any, formData: FormData): Promis
         });
 
         const result = await res.json();
-        console.log(result);
+        if (result.success) {
+            revalidateTag('spot-list', { expire: 0 })
+        }
         return result;
     } catch (error: any) {
         if (error?.digest?.startsWith("NEXT_REDIRECT")) {
@@ -78,7 +81,7 @@ export async function getSpots(queryString?: string) {
         const searchParams = new URLSearchParams(queryString);
         const page = searchParams.get("page") || "1";
         const searchTerm = searchParams.get("searchTerm") || "all";
-        console.log(queryString);
+
         const response = await serverFetch.get(`/guide-spot${queryString ? `?${queryString}` : ""}`,
             {
                 next: {
@@ -100,3 +103,47 @@ export async function getSpots(queryString?: string) {
         };
     }
 }
+
+export async function getBooking(queryString?: string) {
+    try {
+        const searchParams = new URLSearchParams(queryString);
+        const page = searchParams.get("page") || "1";
+        const searchTerm = searchParams.get("searchTerm") || "all";
+
+        const response = await serverFetch.get(`/booking/my-booking${queryString ? `?${queryString}` : ""}`)
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+export async function deleteSpot(spotId: string) {
+    try {
+        console.log(spotId);
+        const response = await serverFetch.delete(`/guide-spot/${spotId}`);
+        const result = await response.json();
+
+        if (result.success) {
+            revalidateTag('spot-list', { expire: 0 })
+        }
+
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Something went wrong",
+        };
+    }
+}
+
+
+

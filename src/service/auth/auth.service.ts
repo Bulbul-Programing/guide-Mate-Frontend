@@ -72,7 +72,7 @@ export async function changePassword(_prevState: any, formData: FormData) {
         validationPayload,
         changePasswordSchema
     );
-    console.log(validatedPayload);
+    
     if (!validatedPayload.success && validatedPayload.errors) {
         return {
             success: false,
