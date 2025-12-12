@@ -23,3 +23,20 @@ export interface UserInfo {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface UserInfoForMyProfile {
+    id: string;
+    name: string;
+    email: string;
+    role: TUserRole;
+
+    phone?: string;
+    password?: string;
+    profilePhoto?: string;
+    bio?: string;
+    isBlocked?: boolean;
+    language?: string[];
+    guideProfile?: TGuideProfile;
+    createdAt?: string;
+    updatedAt?: string;
+}

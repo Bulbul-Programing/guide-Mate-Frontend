@@ -1,14 +1,31 @@
-import MyProfile from '@/components/commonProtectLayout/MyProfile';
-import { getUserInfo } from '@/service/auth/getUserInfo';
-import React from 'react';
+'use client';
 
-const page = async () => {
-    const userInfo = await getUserInfo();
-    return (
-        <div>
-            <MyProfile userInfo={userInfo} />
-        </div>
-    );
+import { useEffect, useState } from 'react';
+import MyProfile from '@/components/commonProtectLayout/MyProfile';
+import { UserInfo } from '@/types/UserInfo';
+
+const Page = () => {
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const res = await fetch('/api/getUserInfo'); // Fetch from server-side API
+                if (!res.ok) throw new Error('Failed to fetch');
+                const data = await res.json();
+                setUserInfo(data);
+            } catch (err) {
+                console.error(err);
+                setUserInfo(null);
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
+
+    if (!userInfo) return <div>Loading...</div>;
+
+    return <MyProfile userInfo={userInfo} />;
 };
 
-export default page;
+export default Page;
