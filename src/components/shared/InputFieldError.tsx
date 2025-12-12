@@ -3,7 +3,7 @@ import { FieldDescription } from "../ui/field";
 
 interface InputFieldError {
     field: string,
-    state: IInputErrorState
+    state: IInputErrorState 
 }
 
 const InputFieldError = ({ field, state }: InputFieldError) => {
