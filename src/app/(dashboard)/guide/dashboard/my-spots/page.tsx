@@ -13,6 +13,7 @@ const MySpotsPage = async ({
 }) => {
     const searchParamsObj = await searchParams;
     const queryString = queryStringFormatter(searchParamsObj);
+    console.log(queryString);
     const spotsResult = await getSpots(queryString);
     const totalPages = Math.ceil(
         (spotsResult?.meta?.total || 1) / (spotsResult?.meta?.limit || 1)
