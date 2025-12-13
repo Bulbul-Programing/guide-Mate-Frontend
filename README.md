@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Local Guide Platform
 
-## Getting Started
+## 🔗 Project Links
+- **Live Demo:** https://guide-mate-frontend.vercel.app
+- **GitHub Repository:** https://github.com/Bulbul-Programing/guide-Mate-Frontend
 
-First, run the development server:
+## 📌 Project Overview
+Local Guide Platform connects travelers with passionate local experts who offer authentic, personalized experiences. Unlike generic tour agencies, this platform empowers locals to monetize their knowledge while travelers explore destinations through food walks, photography tours, historical experiences, and more.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project focuses on **authentic travel**, **trust**, and **easy booking**, making it possible to discover cities like a local.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎯 Objectives
+- Build a platform connecting travelers with local guides
+- Allow guides to create and manage tour listings
+- Enable travelers to search, match, and book tours
+- Provide secure authentication and booking workflows
+- Ensure trust through profiles, reviews, and verification
+- Deliver a modern, engaging, and user-friendly UI/UX
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧑‍🤝‍🧑 User Roles
 
-To learn more about Next.js, take a look at the following resources:
+### 👤 Tourist
+- Browse and search tours
+- Book guides and tours
+- Manage bookings and trips
+- Write reviews after tours
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🧭 Guide
+- Create and manage tour listings
+- Accept or decline booking requests
+- View upcoming and past bookings
+- Build a professional guide profile
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🛠️ Admin
+- Manage users (Tourists & Guides)
+- Approve / manage listings
+- platform activity
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔐 Authentication & Security
+- Email & Password authentication
+- Role-based access control (Tourist / Guide / Admin)
+- JWT-based authentication
+- Secure password hashing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
