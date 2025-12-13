@@ -124,17 +124,47 @@ export async function getBooking(queryString?: string) {
 
 export async function deleteSpot(spotId: string) {
     try {
-        console.log(spotId);
         const response = await serverFetch.delete(`/guide-spot/${spotId}`);
         const result = await response.json();
 
         if (result.success) {
             revalidateTag('spot-list', { expire: 0 })
+            revalidateTag(`spot-details-${spotId}`, { expire: 0 })
         }
 
         return result;
     } catch (error: any) {
         console.log(error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Something went wrong",
+        };
+    }
+}
+
+export async function getSpotDetails(id: string) {
+    try {
+        if (!id) {
+            throw new Error("Spot ID is required");
+        }
+
+        const response = await serverFetch.get(`/guide-spot/details/${id}`, {
+            next: {
+                tags: [
+                    `spot-details-${id}`,
+                ],
+                revalidate: 80,
+            },
+        });
+
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+
         return {
             success: false,
             message:

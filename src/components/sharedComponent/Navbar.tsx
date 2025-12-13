@@ -16,8 +16,7 @@ import { getDefaultDashboardRoute } from '@/lib/auth-utils';
 export const navigationLinks = [
     { href: "/", label: "Home", icon: HomeIcon, active: true },
     { href: "/about", label: "About", icon: UserIcon },
-    { href: "/blog", label: "Blog", icon: NewspaperIcon },
-    { href: "/project", label: "Project", icon: PresentationIcon }
+    { href: "/tours", label: "Tours Spot", icon: NewspaperIcon }
 ]
 
 const Navbar = async () => {

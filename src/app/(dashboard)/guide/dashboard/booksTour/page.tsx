@@ -16,7 +16,7 @@ const page = async ({
     const totalPages = Math.ceil(
         (bookingResult?.data?.meta?.total || 1) / (bookingResult?.data?.meta?.limit || 1)
     );
-    console.log(bookingResult);
+    
     return (
         <div>
             <BookManagementHeader />
