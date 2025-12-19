@@ -30,7 +30,7 @@ const ManagementPageHeader = ({
         )}
       </div>
       {action && (
-        <Button onClick={action.onClick}>
+        <Button className="text-white" onClick={action.onClick}>
           <Icon className="mr-2 h-4 w-4" />
           {action.label}
         </Button>

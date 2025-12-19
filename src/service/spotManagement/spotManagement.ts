@@ -4,7 +4,7 @@
 import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
 import { hostImages } from "@/utils/ImageUpload";
-import { createSpotValidationSchema, createSpotValidationSchemaForServer } from "@/zod/Spot/createSpotValidationSchema";
+import { createSpotValidationSchema, createSpotValidationSchemaForServer, updateSpotValidationSchema } from "@/zod/Spot/createSpotValidationSchema";
 import { revalidateTag } from "next/cache";
 
 export const createSpot = async (_currentState: any, formData: FormData): Promise<any> => {
@@ -47,7 +47,7 @@ export const createSpot = async (_currentState: any, formData: FormData): Promis
             payload.images = uploadedImages;
         }
         const validatedPayload = zodValidator(payload, createSpotValidationSchemaForServer).data
-
+        console.log('cllflff');
         const res = await serverFetch.post("/guide-spot", {
             body: JSON.stringify(validatedPayload),
             headers: {
@@ -76,7 +76,7 @@ export const createSpot = async (_currentState: any, formData: FormData): Promis
     }
 };
 
-export async function getSpots(queryString?: string) {
+export async function getAllSpots(queryString?: string) {
     try {
         const searchParams = new URLSearchParams(queryString);
         const page = searchParams.get("page") || "1";
@@ -104,13 +104,77 @@ export async function getSpots(queryString?: string) {
     }
 }
 
+export async function getMySpots(queryString?: string) {
+    try {
+        const searchParams = new URLSearchParams(queryString);
+        const page = searchParams.get("page") || "1";
+        const searchTerm = searchParams.get("searchTerm") || "all";
+
+        const response = await serverFetch.get(`/guide-spot/me${queryString ? `?${queryString}` : ""}`,
+            {
+                next: {
+                    tags: [
+                        "spot-list",
+                        `spot-page-${page}`,
+                        `spot-search-${searchTerm}`,
+                    ],
+                    revalidate: 180, // faster doctor list updates
+                },
+            });
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
 export async function getBooking(queryString?: string) {
     try {
         const searchParams = new URLSearchParams(queryString);
         const page = searchParams.get("page") || "1";
         const searchTerm = searchParams.get("searchTerm") || "all";
 
-        const response = await serverFetch.get(`/booking/my-booking${queryString ? `?${queryString}` : ""}`)
+        const response = await serverFetch.get(`/booking/my-booking${queryString ? `?${queryString}` : ""}`,
+            {
+                next: {
+                    tags: [
+                        "booking"
+                    ],
+                    revalidate: 180, // faster doctor list updates
+                },
+            }
+        )
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+export async function getAllBookingAdmin(queryString?: string) {
+    try {
+        const searchParams = new URLSearchParams(queryString);
+        const page = searchParams.get("page") || "1";
+        const searchTerm = searchParams.get("searchTerm") || "all";
+
+        const response = await serverFetch.get(`/booking${queryString ? `?${queryString}` : ""}`,
+            {
+                next: {
+                    tags: [
+                        "booking"
+                    ],
+                    revalidate: 180,
+                },
+            }
+        )
         const result = await response.json();
         return result;
     } catch (error: any) {
@@ -174,6 +238,96 @@ export async function getSpotDetails(id: string) {
         };
     }
 }
+
+
+export const updateSpot = async (_currentState: any, formData: FormData): Promise<any> => {
+    try {
+        const guideSpotId = formData.get('guideSpotId')
+
+        const payloadForValidate = {
+            title: formData.get("title"),
+            description: formData.get("description"),
+            itinerary: formData.get("itinerary"),
+            category: formData.get("category"),
+            durationDays: Number(formData.get("durationDays")),
+            maxGroupSize: Number(formData.get("maxGroupSize")),
+            meetingPoint: formData.get("meetingPoint"),
+            city: formData.get("city"),
+            isActive: formData.get("isActive") === "true",
+            images: formData.getAll("images") as File[]
+        };
+
+        const validateResult = zodValidator(payloadForValidate, updateSpotValidationSchema);
+        if (!validateResult.success) {
+            return validateResult;
+        }
+
+        const payload: any = {
+            title: payloadForValidate.title,
+            description: payloadForValidate.description,
+            itinerary: payloadForValidate.itinerary,
+            category: payloadForValidate.category,
+            durationDays: payloadForValidate.durationDays,
+            maxGroupSize: payloadForValidate.maxGroupSize,
+            meetingPoint: payloadForValidate.meetingPoint,
+            city: payloadForValidate.city,
+            isActive: payloadForValidate.isActive,
+            images: [],
+        };
+
+        const oldImage = formData.get('oldImage')
+
+        if (oldImage) {
+            const getPreviousImage = oldImage?.toString().split(',')
+            payload.images = getPreviousImage
+        }
+
+        const imageFiles = payloadForValidate.images;
+
+        if (imageFiles && imageFiles.length > 0) {
+            const uploadedImages = await hostImages(imageFiles);
+
+            payload.images = [...payload.images, ...uploadedImages];
+        }
+
+        if (payload.images.length < 1) {
+            return {
+                success: false,
+                message: "Please select minimum one images."
+            }
+        }
+
+        const validatedPayload = zodValidator(payload, createSpotValidationSchemaForServer).data
+
+        const res = await serverFetch.patch(`/guide-spot/${guideSpotId}`, {
+            body: JSON.stringify(validatedPayload),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+            revalidateTag('spot-list', { expire: 0 })
+        }
+        return result;
+    }
+    catch (error: any) {
+        if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+            throw error;
+        }
+        console.log(error);
+
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === "development"
+                    ? error.message
+                    : "Failed to create spot. Please try again.",
+        };
+    }
+};
 
 
 

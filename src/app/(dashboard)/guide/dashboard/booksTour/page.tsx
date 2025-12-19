@@ -3,7 +3,8 @@ import BookManagementHeader from '@/components/dashboard/guid/BookManagementHead
 import TablePagination from '@/components/shared/TablePagination';
 import { queryStringFormatter } from '@/lib/formatters';
 import { getBooking } from '@/service/spotManagement/spotManagement';
-import React from 'react';
+import ManagementTableSkeleton from '@/Skeleton/ManagementTableSkeleton';
+import React, { Suspense } from 'react';
 
 const page = async ({
     searchParams,
@@ -16,11 +17,13 @@ const page = async ({
     const totalPages = Math.ceil(
         (bookingResult?.data?.meta?.total || 1) / (bookingResult?.data?.meta?.limit || 1)
     );
-    
+
     return (
-        <div>
+        <div className='space-y-5'>
             <BookManagementHeader />
-            <BookingTable booking={bookingResult?.data.data} />
+            <Suspense fallback={<ManagementTableSkeleton />}>
+                <BookingTable booking={bookingResult?.data.data} />
+            </Suspense>
 
             <TablePagination
                 currentPage={bookingResult?.data?.meta?.page || 1}

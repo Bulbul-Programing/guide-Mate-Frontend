@@ -11,8 +11,8 @@ const Subscribe = () => {
         toast.success('Subscription complete.')
     };
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-            <div className="max-w-6xl w-full bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div className="flex justify-center max-w-4xl mx-auto items-center my-16 -50 p-4">
+            <div className=" w-full rounded-xl shadow-2xl overflow-hidden">
                 <div className="flex flex-col md:flex-row">
 
                     <div className="md:w-1/2 shrink-0">
@@ -26,13 +26,13 @@ const Subscribe = () => {
                         />
                     </div>
 
-                    <div className="md:w-1/2 flex flex-col justify-center">
+                    <div className="md:w-1/2 flex flex-col justify-center p-6">
 
-                        <h2 className="text-3xl md:text-2xl lg:text-3xl font-extrabold text-gray-800 leading-tight">
+                        <h2 className="text-3xl md:text-2xl lg:text-3xl font-extrabold text-foreground leading-tight">
                             Get special offers, and more <br /> from Guide Mate
                         </h2>
 
-                        <p className="mt-4 text-gray-600 text-base">
+                        <p className="mt-4 text-muted-foreground text-base">
                             Subscribe to see secret deals prices drop the moment you sign up!
                         </p>
 
@@ -48,13 +48,13 @@ const Subscribe = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder=""
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-transparent peer"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-blue-500 placeholder-transparent peer"
                                     />
                                     <label
                                         htmlFor="email-address"
                                         className="absolute left-4 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 transition-all 
                                peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-3 peer-focus:-translate-y-full peer-focus:text-sm
-                               pointer-events-none bg-white px-1"
+                               pointer-events-none bg-background px-1"
                                     // The label shifts up on focus, similar to the design
                                     >
                                         Email Address
@@ -64,7 +64,7 @@ const Subscribe = () => {
                                 {/* Submit Button */}
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 whitespace-nowrap"
+                                    className="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 whitespace-nowrap"
                                 >
                                     Subscribe
                                 </button>

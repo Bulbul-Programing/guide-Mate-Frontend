@@ -40,7 +40,7 @@ const TourCard = ({ tour }: TourCardProps) => {
                     className="
             absolute top-4 right-4 
             bg-linear-to-r from-primary to-accent 
-            text-primary-foreground text-xs 
+            text-white text-xs 
             px-3 py-1 rounded-full font-semibold
             shadow-md
           "
@@ -92,7 +92,7 @@ const TourCard = ({ tour }: TourCardProps) => {
                     {/* Button using theme colors */}
                     <button
                         className="
-              bg-primary text-primary-foreground 
+              bg-primary text-white
               px-5 py-2 rounded-md text-sm font-semibold
               hover:bg-primary/90 transition
               shadow-sm

@@ -1,16 +1,29 @@
 "use client";
 
 import ManagementTable from "@/components/shared/ManagementTable";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
 import { bookingColumns } from "./BookingColumns";
 import { TBooking } from "@/types/Booking";
+import { useState } from "react";
+import BookingViewDetailsDialog from "./BookingViewDetailsDialog";
+import { TUserRole } from "@/types/UserInfo";
 
 interface bookingTableProps {
-    booking: TBooking[];
+    booking: TBooking[]
 }
 
-const BookingTable = ({ booking }: bookingTableProps) => {
+const BookingTable = ({ booking}: bookingTableProps) => {
+
+    const [viewingBooking, setViewingBooking] = useState<TBooking | null>(null);
+    const [editingBooking, setEditingBooking] = useState<TBooking | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleView = (booking: TBooking) => {
+        setViewingBooking(booking);
+    };
+
+    const handleEdit = (booking: TBooking) => {
+        setEditingBooking(booking);
+    };
 
     return (
         <>
@@ -18,6 +31,8 @@ const BookingTable = ({ booking }: bookingTableProps) => {
                 data={booking}
                 columns={bookingColumns}
                 getRowKey={(spot) => spot.id}
+                onView={handleView}
+                // onEdit={handleEdit}
                 emptyMessage="No booking found"
             />
 
@@ -32,11 +47,11 @@ const BookingTable = ({ booking }: bookingTableProps) => {
             /> */}
 
             {/* View Spot Detail Dialog */}
-            {/* <SpotViewDetailDialog
-                open={!!viewingSpot}
-                onClose={() => setViewingSpot(null)}
-                spot={viewingSpot}
-            /> */}
+            <BookingViewDetailsDialog
+                open={!!viewingBooking}
+                onClose={() => setViewingBooking(null)}
+                booking={viewingBooking}
+            />
 
             {/* Delete Confirmation Dialog */}
             {/* <DeleteConfirmationDialog

@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const HeroSlider = () => {
     return (
-        <div className="w-full h-[90vh] relative">
+        <div className="w-full h-[450px] md:h-[500px] relative">
             <Swiper
                 autoplay={{
                     delay: 2500,

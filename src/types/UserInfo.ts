@@ -21,7 +21,7 @@ export interface UserInfo {
     language: string[];
     guideProfile: TGuideProfile
     createdAt: string;
-    updatedAt: string;
+    updateAt: string;
 }
 
 export interface UserInfoForMyProfile {

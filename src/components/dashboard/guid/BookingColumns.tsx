@@ -8,6 +8,7 @@ import BookingStatusBadgeCell from "@/components/shared/BookingStatusBadgeCell";
 import { Column } from "@/components/shared/ManagementTable";
 import { TBooking } from "@/types/Booking";
 import PaymentStatusBadgeCell from "@/components/shared/PaymentStatusBadgeCell";
+import UpdateBookingStatus from "./UpdateBookingStatus";
 
 export const bookingColumns: Column<TBooking>[] = [
     {
@@ -86,4 +87,8 @@ export const bookingColumns: Column<TBooking>[] = [
         header: "Updated At",
         accessor: (booking) => <DateCell date={booking.updatedAt} />
     },
+    {
+        header: "Update Status",
+        accessor: (booking) => <UpdateBookingStatus booking={booking} />
+    }
 ];

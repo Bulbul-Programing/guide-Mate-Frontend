@@ -1,134 +1,166 @@
-import { TGuideSpot } from '@/types/GuideSpot';
+
 import Image from 'next/image';
+
+import { TGuideSpot } from '@/types/GuideSpot';
+import TourDetailsSlider from './TourDetailsSlider';
 import BookNow from './BookNow';
 
-interface TourDetailsComponentProps {
-    tour: TGuideSpot
+interface TourDetailsProps {
+    tour: TGuideSpot;
 }
 
-const TourDetailsComponent = ({ tour }: TourDetailsComponentProps) => {
+const TourDetails = ({ tour }: TourDetailsProps) => {
+    const reviews = tour.reviews ?? [];
 
+    const averageRating =
+        reviews.length > 0
+            ? (
+                reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
+            ).toFixed(1)
+            : null;
     return (
-        <div className="max-w-6xl mx-auto py-12 px-6">
-            <div className="relative w-full h-[380px] md:h-[480px] rounded-3xl overflow-hidden shadow-xl">
-                <Image
-                    src={tour.images[0]}
-                    alt={tour.title}
-                    width={1600}
-                    height={800}
-                    className="w-full h-full object-cover"
-                />
+        <section className="max-w-7xl mx-auto px-6 py-12">
+            {/* ================= IMAGE SLIDER ================= */}
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <TourDetailsSlider images={tour.images} />
 
-                <span
-                    className="
-            absolute top-6 left-6 
-            px-3 py-1 text-sm font-semibold
-            rounded-full shadow-lg
-            bg-linear-to-r from-primary to-accent
-            text-primary-foreground
-          "
-                >
+                {/* Category */}
+                <span className="absolute top-6 left-6 z-10 px-4 py-1.5 rounded-full text-sm font-semibold bg-linear-to-r from-primary to-accent text-white shadow-lg">
                     {tour.category}
                 </span>
 
-                <div
-                    className="
-            absolute bottom-6 left-1/2 -translate-x-1/2 
-            w-[90%] md:w-[60%]
-            bg-card/80 backdrop-blur-xl 
-            border border-border 
-            shadow-xl rounded-2xl 
-            p-6 flex justify-between flex-wrap gap-4
-          "
-                >
-                    <InfoBadge icon="⏱" label={`${tour.durationDays} Days`} />
-                    <InfoBadge icon="👥" label={`Max ${tour.maxGroupSize}`} />
-                    <InfoBadge icon="📍" label={tour.city} />
-                    <InfoBadge icon="📌" label={tour.meetingPoint} />
+                {/* Floating Info */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-[92%] md:w-[70%] bg-background/80 backdrop-blur-xl border border-border rounded-2xl shadow-xl p-5 flex flex-wrap justify-between gap-3">
+                    <InfoBadge label={`${tour.durationDays} Days`} />
+                    <InfoBadge label={`Max ${tour.maxGroupSize} People`} />
+                    <InfoBadge label={tour.city} />
+                    <InfoBadge label={tour.meetingPoint} />
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-10 mt-14">
-                <div className="md:col-span-2 space-y-8">
+            {/* ================= CONTENT ================= */}
+            <div className="grid lg:grid-cols-3 gap-10 mt-16">
+                {/* LEFT SIDE */}
+                <div className="lg:col-span-2 space-y-10">
+                    {/* Title */}
                     <div>
-                        <h1 className="text-3xl md:text-4xl font-bold text-card-foreground">
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                             {tour.title}
                         </h1>
-
                         <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
                             {tour.description}
                         </p>
-
-                        <div className="mt-6 bg-muted/50 p-4 rounded-xl border border-border">
-                            <h3 className="text-lg font-semibold mb-2">Itinerary</h3>
-                            <p className="text-muted-foreground">{tour.itinerary}</p>
-                        </div>
                     </div>
 
-                    <div className="bg-card border border-border p-6 rounded-2xl shadow-sm">
-                        <h3 className="text-xl font-semibold mb-3">Guide Information</h3>
+                    {/* Itinerary */}
+                    <div className="bg-muted/40 border border-border rounded-2xl p-6">
+                        <h3 className="text-xl font-semibold mb-2">Itinerary</h3>
+                        <p className="text-muted-foreground">{tour.itinerary}</p>
+                    </div>
 
-                        <div className="flex items-center gap-6">
-                            <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl font-bold">
-                                {
-                                    tour.guide?.user?.profilePhoto ?
-                                        <Image
-                                            width={70}
-                                            height={70}
-                                            alt={tour?.guide?.user?.name}
-                                            src={tour?.guide?.user?.profilePhoto}
-                                        /> :
-                                        <p>{tour?.guide?.user?.name.charAt(0).toUpperCase()}</p>
-                                }
-                                {/* {tour.guide?.user?.profilePhoto ? tour.guide.user.profilePhoto : tour.guide.user.name.charAt(0).toUpperCase()} */}
+                    {/* Guide */}
+                    <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+                        <h3 className="text-xl font-semibold mb-4">Your Guide</h3>
+
+                        <div className="flex items-center gap-5">
+                            <div className="relative size-16 rounded-full overflow-hidden bg-muted">
+                                {tour.guide.user.profilePhoto ? (
+                                    <Image
+                                        src={tour.guide.user.profilePhoto}
+                                        alt={tour.guide.user?.name}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                ) : (
+                                    <div className="flex items-center justify-center size-full font-bold">
+                                        {tour.guide.user?.name.charAt(0)}
+                                    </div>
+                                )}
                             </div>
 
                             <div>
-                                <p className="text-card-foreground font-semibold text-lg">
-                                    Available Guide
+                                <p className="text-lg font-semibold">
+                                    {tour.guide.user?.name}
                                 </p>
-
-                                <p className="text-muted-foreground text-sm">
-                                    {tour.guide.experienceYears} years experience
+                                <p className="text-sm text-muted-foreground">
+                                    {tour.guide.experienceYears} years experience • {tour.guide.location}
                                 </p>
-
-                                <p className="text-muted-foreground text-sm">
-                                    Based in {tour.guide.location}
+                                <p className="text-sm text-muted-foreground">
+                                    {tour.guide.user.email}
                                 </p>
                             </div>
                         </div>
                     </div>
 
+                    {/* Reviews (Optional) */}
+                    {reviews.length > 0 && (
+                        <div className="bg-card border border-border rounded-2xl p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-xl font-semibold">Reviews</h3>
+                                <span className="text-sm text-muted-foreground">
+                                    ⭐ {averageRating} ({reviews.length})
+                                </span>
+                            </div>
+
+                            <div className="space-y-4">
+                                {reviews.map((review) => (
+                                    <div
+                                        key={review.id}
+                                        className="border border-border rounded-xl p-4"
+                                    >
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="size-8 rounded-full bg-muted flex items-center justify-center text-sm font-semibold">
+                                                {review.traveler?.name.charAt(0)}
+                                            </div>
+                                            <p className="font-medium">
+                                                {review.traveler?.name}
+                                            </p>
+                                            <span className="text-sm text-muted-foreground">
+                                                ⭐ {review.rating}
+                                            </span>
+                                        </div>
+
+                                        <p className="text-muted-foreground">
+                                            {review.comment}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
+                {/* RIGHT SIDE */}
                 <div>
-                    <div className="bg-card border border-border rounded-2xl p-6 shadow-lg sticky top-20">
-                        <h3 className="text-xl font-semibold mb-4">Pricing</h3>
+                    <div className="sticky top-24 bg-card border border-border rounded-2xl p-6 shadow-xl">
+                        <h3 className="text-xl font-semibold mb-3">Pricing</h3>
 
-                        <div className="mb-6">
-                            <p className="text-muted-foreground text-sm">Starts from</p>
-                            <p className="text-4xl font-extrabold mt-1">
-                                ${tour.guide.pricePerDay}
-                            </p>
-                        </div>
+                        <p className="text-sm text-muted-foreground">Per day</p>
+                        <p className="text-4xl font-extrabold mb-6">
+                            ${tour.guide.pricePerDay}
+                        </p>
+
                         <BookNow guideSpotId={tour.id} />
-                        <p className="text-xs text-muted-foreground mt-3 text-center">
-                            No extra fees • Instant confirmation
+                        {/* <button className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition">
+                            Book Now
+                        </button> */}
+
+                        <p className="text-xs text-muted-foreground mt-4 text-center">
+                            Instant confirmation • No hidden fees
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 
-export default TourDetailsComponent;
+export default TourDetails;
 
-function InfoBadge({ icon, label }: { icon: string; label: string }) {
-    return (
-        <div className="flex items-center gap-2 bg-muted px-3 py-2 rounded-lg border border-border text-sm text-card-foreground">
-            <span className="text-primary">{icon}</span>
-            <span className="text-sm">{label}</span>
-        </div>
-    );
-}
+/* ================= SMALL COMPONENT ================= */
+
+const InfoBadge = ({ label }: { label: string }) => (
+    <div className="px-3 py-2 rounded-lg bg-muted border border-border text-sm font-medium">
+        {label}
+    </div>
+);

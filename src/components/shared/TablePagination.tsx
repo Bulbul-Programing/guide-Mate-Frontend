@@ -79,7 +79,7 @@ const TablePagination = ({ currentPage, totalPages }: TablePaginationProps) => {
               size="sm"
               onClick={() => navigateToPage(pageNumber)}
               disabled={isPending}
-              className="w-10"
+              className="w-10 text-white"
             >
               {pageNumber}
             </Button>

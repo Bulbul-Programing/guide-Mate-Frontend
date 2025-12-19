@@ -73,7 +73,7 @@ const DashboardNavbarContent = ({
         {/* Search Bar & AI Search */}
         <div className="flex-1 flex items-center justify-end gap-2">
           {/* Search Input */}
-          <div className="relative w-full hidden sm:block">
+          {/* <div className="relative w-full hidden sm:block">
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground cursor-pointer"
               onClick={handleSearchIconClick}
@@ -86,7 +86,7 @@ const DashboardNavbarContent = ({
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyDown}
             />
-          </div>
+          </div> */}
         </div>
 
         {/* Right Side Actions */}

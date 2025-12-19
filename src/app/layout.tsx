@@ -32,14 +32,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
-        <Toaster richColors />
-        <Suspense fallback={null}>
-          <LoginSuccessToast />
-          <LogoutSuccessToast />
-        </Suspense>
+        <div className="max-w-7xl mx-auto">
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+          <Toaster richColors />
+          <Suspense fallback={null}>
+            <LoginSuccessToast />
+            <LogoutSuccessToast />
+          </Suspense>
+        </div>
       </body>
     </html>
   );

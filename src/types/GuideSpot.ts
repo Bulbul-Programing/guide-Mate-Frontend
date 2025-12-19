@@ -43,7 +43,25 @@ export type TGuideSpot = {
     createdAt: Date;
     updatedAt: Date;
     guide: GuideProfileType;
+    reviews?: TReview[];
 };
+
+export type TReview = {
+    id: string;
+    rating: number; // 1–5
+    comment: string;
+
+    bookingId: string;
+    guideId: string;
+    guideSpotId: string;
+    travelerId: string;
+
+    createdAt: string;
+    updatedAt: string;
+
+    traveler: UserType;
+};
+
 
 export const tourCategoryOptions = [
     { label: "Food", value: "FOOD" },

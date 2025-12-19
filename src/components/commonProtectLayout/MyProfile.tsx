@@ -259,7 +259,7 @@ const MyProfile = ({ userInfo }: MyProfileProps) => {
 
                             {/* Submit Button */}
                             <div className="flex justify-end pt-4 mt-4">
-                                <Button type="submit" disabled={isPending}>
+                                <Button type="submit" className="text-white" disabled={isPending}>
                                     {isPending ? (
                                         <>
                                             <Loader2 className="h-4 w-4 mr-2 animate-spin" />

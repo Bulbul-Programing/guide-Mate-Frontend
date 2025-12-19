@@ -35,7 +35,7 @@ const Footer = () => {
                         <input
                             type="email"
                             placeholder="Email Address"
-                            className="px-3 py-2 rounded-l-md w-full text-gray-800"
+                            className="px-3 py-2 rounded-l-md w-full text-background"
                         />
                         <button className="bg-teal-500 px-4 py-2 rounded-r-md">
                             Send

@@ -1,4 +1,4 @@
- type TGuide = {
+type TGuide = {
     id: string;
     name: string;
     email: string;
@@ -23,7 +23,7 @@ type TGuideSpot = {
     updatedAt: string;
 };
 
- type TPayment = {
+type TPayment = {
     id: string;
     bookingId: string;
     amount: number;
@@ -33,7 +33,7 @@ type TGuideSpot = {
     updateAt: string;
 };
 
- type TReview = {
+type TReview = {
     id: string;
     rating: number;
     comment: string | null;
@@ -67,4 +67,20 @@ export type TBooking = {
     payment: TPayment;
     review: TReview | null;
     tourist: TTraveler;
+};
+
+export type BookingStatus =
+    | "PENDING"
+    | "CONFIRMED"
+    | "COMPLETED"
+    | "CANCELLED";
+
+export const BOOKING_STATUS_FLOW: Record<
+    BookingStatus,
+    BookingStatus[]
+> = {
+    PENDING: ["CONFIRMED", "CANCELLED"],
+    CONFIRMED: ["COMPLETED"],
+    COMPLETED: [],
+    CANCELLED: [],
 };

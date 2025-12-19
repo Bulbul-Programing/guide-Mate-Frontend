@@ -38,7 +38,7 @@ const BookNow = ({ guideSpotId }: { guideSpotId: string }) => {
                 guideSpotId={guideSpotId}
             />
 
-            <Button className="w-full" onClick={handleOpenBooking}>
+            <Button className="w-full text-white" onClick={handleOpenBooking}>
                 Book now
             </Button>
 

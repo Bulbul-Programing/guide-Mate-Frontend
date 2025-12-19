@@ -11,7 +11,7 @@ const TourDetails = async ({
     const { id } = await params;
     const getSpot = await getSpotDetails(id)
     return (
-        <div className='pt-20 px-10'>
+        <div className='py-10 md:py-20 px-5'>
             <Suspense fallback={<TourDetailsSkeleton />}>
                 <TourDetailsComponent tour={getSpot.data} />
             </Suspense>

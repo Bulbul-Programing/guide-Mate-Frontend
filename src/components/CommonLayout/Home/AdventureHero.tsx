@@ -6,25 +6,25 @@ import React from 'react';
 // Define the component
 const AdventureHero: React.FC = () => {
     return (
-        <div className="flex justify-center items-center py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white min-h-[600px]">
+        <div className="flex justify-center items-center py-16 lg:py-24 px-4 sm:px-6 lg:px-8  min-h-[600px]">
             <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                 {/* Left Content Column */}
                 <div className="flex flex-col space-y-4">
 
                     {/* Logo/Brand Text */}
-                    <p className="font-serif text-2xl text-gray-700 font-semibold" style={{ fontFamily: "'Dancing Script', cursive" }}>
+                    <p className="font-serif text-2xl text-foreground font-semibold" style={{ fontFamily: "'Dancing Script', cursive" }}>
                         Wandering Souls
                     </p>
 
                     {/* Main Headline */}
-                    <h1 className="text-2xl md:text-4xl font-extrabold text-gray-800 leading-tight">
+                    <h1 className="text-2xl md:text-4xl font-extrabold text-foreground leading-tight">
                         Discover Your Next
                         <span className="text-cyan-500 block leading-none">Adventure</span>
                     </h1>
 
                     {/* Description */}
-                    <p className="text-lg text-gray-600 max-w-lg">
+                    <p className="text-lg text-muted-foreground max-w-lg">
                         Whether you&apos;re planning a romantic honeymoon or a family vacation, our
                         price section has got you covered. So, start browsing today and find the
                         perfect vacation package at a price that won&apos;t leave you feeling guilty.
@@ -35,24 +35,24 @@ const AdventureHero: React.FC = () => {
 
                         {/* Organized Group Tour */}
                         <div>
-                            <p className="text-sm font-medium text-gray-800 mb-1">Organized Group Tour</p>
+                            <p className="text-sm font-medium text-foreground mb-1">Organized Group Tour</p>
                             {/* This line is visually styled as a progress bar line */}
                             <div className="h-1 bg-gray-300 relative">
-                                <div className="absolute top-0 left-0 h-full bg-gray-800" style={{ width: '85%' }}></div>
+                                <div className="absolute top-0 left-0 h-full bg-primary" style={{ width: '85%' }}></div>
                             </div>
                         </div>
 
                         {/* Single Customized Trip */}
                         <div>
-                            <p className="text-sm font-medium text-gray-800 mb-1">Single Customized Trip</p>
+                            <p className="text-sm font-medium text-foreground mb-1">Single Customized Trip</p>
                             {/* This line is visually styled as a progress bar line */}
                             <div className="h-1 bg-gray-300 relative">
-                                <div className="absolute top-0 left-0 h-full bg-gray-800" style={{ width: '95%' }}></div>
+                                <div className="absolute top-0 left-0 h-full bg-primary" style={{ width: '95%' }}></div>
                             </div>
                         </div>
                     </div>
 
-                    <Link href='/spot' ><Button className="flex items-center justify-center w-40 px-6 py-3 bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 transition duration-300 mt-6">
+                    <Link href='/tours' ><Button className="flex items-center justify-center w-40 px-6 py-3 bg-cyan-500 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-600 transition duration-300 mt-6">
                         MORE INFO
                         {/* Adding an icon like in many modern designs for a finished look */}
                         {/* <ChevronRight className="w-5 h-5 ml-2" /> */}

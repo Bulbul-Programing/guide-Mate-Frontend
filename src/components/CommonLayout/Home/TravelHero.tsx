@@ -4,24 +4,24 @@ import React from 'react';
 
 const TravelHero = () => {
     return (
-        <section className="w-full grid grid-cols-1 md:grid-cols-2 items-center gap-10 py-20 px-6 md:px-16">
+        <section className="w-full grid grid-cols-1 md:grid-cols-2 items-center gap-10 py-20 px-4 sm:px-6 lg:px-8">
             {/* Left Content */}
             <div>
                 <p className="text-teal-600 tracking-widest text-sm font-semibold mb-4">
                     THE BEST TRAVEL AGENCY
                 </p>
-                <h1 className="text-3xl md:text-3xl lg:text-4xl  font-extrabold leading-tight text-gray-900">
+                <h1 className="text-3xl md:text-3xl lg:text-4xl  font-extrabold leading-tight text-foreground">
                     DISCOVER THE <span className="text-teal-600">WORLD</span> <br /> WITH OUR
                     GUIDE
                 </h1>
 
 
-                <p className="text-gray-600 mt-6 max-w-xl">
+                <p className="text-muted-foreground mt-6 max-w-xl">
                     Discover unforgettable travel experiences tailored just for you. From expert local guides to hassle-free planning, we make your journey smooth, safe, and truly memorable.
                 </p>
 
 
-                <p className="text-gray-600 mt-4 max-w-xl">
+                <p className="text-muted-foreground mt-4 max-w-xl">
                     We connect you with certified tour guides, curated destinations, and personalized itineraries—ensuring every trip feels effortless and extraordinary.
                 </p>
 
@@ -30,11 +30,11 @@ const TravelHero = () => {
                 <div className="mt-8 space-y-4">
                     <div className="flex items-center gap-3">
                         <span className="w-6 h-6 rounded-full bg-teal-600 text-white flex items-center justify-center text-sm">✓</span>
-                        <p className="text-gray-700 font-medium">5 Years of Experience</p>
+                        <p className="text-foreground font-medium">5 Years of Experience</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <span className="w-6 h-6 rounded-full bg-teal-600 text-white flex items-center justify-center text-sm">✓</span>
-                        <p className="text-gray-700 font-medium">150+ Tour Destinations</p>
+                        <p className="text-foreground font-medium">150+ Tour Destinations</p>
                     </div>
                 </div>
 
@@ -45,7 +45,7 @@ const TravelHero = () => {
                         <Phone className="text-teal-600" />
                     </div>
                     <div>
-                        <p className="text-gray-600 text-sm">For information</p>
+                        <p className="text-foreground text-sm">For information</p>
                         <p className="text-teal-600 font-bold text-lg">01822222222</p>
                     </div>
                 </div>

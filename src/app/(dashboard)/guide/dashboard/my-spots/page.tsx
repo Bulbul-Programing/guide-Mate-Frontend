@@ -3,7 +3,7 @@ import SpotManagementHeader from '@/components/dashboard/guid/SpotManagementHead
 import SpotTable from '@/components/dashboard/guid/SpotTable';
 import TablePagination from '@/components/shared/TablePagination';
 import { queryStringFormatter } from '@/lib/formatters';
-import { getSpots } from '@/service/spotManagement/spotManagement';
+import { getAllSpots, getMySpots } from '@/service/spotManagement/spotManagement';
 import React, { Suspense } from 'react';
 
 const MySpotsPage = async ({
@@ -14,12 +14,14 @@ const MySpotsPage = async ({
     const searchParamsObj = await searchParams;
     const queryString = queryStringFormatter(searchParamsObj);
 
-    const spotsResult = await getSpots(queryString);
+    const spotsResult = await getMySpots(queryString);
     const totalPages = Math.ceil(
         (spotsResult?.meta?.total || 1) / (spotsResult?.meta?.limit || 1)
     );
+
+
     return (
-        <div>
+        <div className='space-y-5'>
             <SpotManagementHeader />
             <SpotFilter />
             {/* fallback={<TableSkeleton columns={10} rows={10} />} */}

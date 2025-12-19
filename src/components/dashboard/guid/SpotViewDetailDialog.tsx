@@ -39,7 +39,7 @@ const SpotViewDetailDialog = ({ open, onClose, spot }: ISpotViewDialogProps) => 
 
         <div className="flex-1 overflow-y-auto px-6 pb-6">
           {/* Spot Header */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg mb-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 bg-linear-to-br from-accent to-ring rounded-lg mb-6">
             <Avatar className="h-24 w-24 border-4 border-white shadow-lg">
               <AvatarImage src={spot.guide.user.profilePhoto} alt={spot.guide.user.name} />
               <AvatarFallback className="text-2xl">
@@ -49,7 +49,7 @@ const SpotViewDetailDialog = ({ open, onClose, spot }: ISpotViewDialogProps) => 
             <div className="flex-1 text-center sm:text-left">
               <h2 className="text-3xl font-bold mb-1">{spot.title}</h2>
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                <Badge variant={spot.isActive ? "default" : "destructive"} className="text-sm">
+                <Badge variant={spot.isActive ? "default" : "destructive"} className="text-sm text-white">
                   {spot.isActive ? "Active" : "Inactive"}
                 </Badge>
                 <Badge variant="secondary" className="text-sm">

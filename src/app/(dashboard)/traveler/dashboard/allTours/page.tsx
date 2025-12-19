@@ -1,9 +1,10 @@
-import BookingTable from '@/components/dashboard/guid/BookingTable';
 import BookManagementHeader from '@/components/dashboard/guid/BookManagementHeader';
+import BookingTableTraveler from '@/components/dashboard/traveler/Booking/BookingTableTraveler';
 import TablePagination from '@/components/shared/TablePagination';
 import { queryStringFormatter } from '@/lib/formatters';
 import { getBooking } from '@/service/spotManagement/spotManagement';
-import React from 'react';
+import ManagementTableSkeleton from '@/Skeleton/ManagementTableSkeleton';
+import { Suspense } from 'react';
 
 const page = async ({
     searchParams,
@@ -16,10 +17,13 @@ const page = async ({
     const totalPages = Math.ceil(
         (bookingResult?.meta?.total || 1) / (bookingResult?.meta?.limit || 1)
     );
+
     return (
         <div>
             <BookManagementHeader />
-            <BookingTable booking={bookingResult?.data.data} />
+            <Suspense fallback={<ManagementTableSkeleton />}>
+                <BookingTableTraveler booking={bookingResult?.data.data} />
+            </Suspense>
 
             <TablePagination
                 currentPage={bookingResult?.meta?.page || 1}

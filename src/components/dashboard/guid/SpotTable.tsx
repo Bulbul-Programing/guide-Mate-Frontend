@@ -10,6 +10,7 @@ import { TGuideSpot } from "@/types/GuideSpot";
 import SpotViewDetailDialog from "./SpotViewDetailDialog";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { deleteSpot } from "@/service/spotManagement/spotManagement";
+import UpdateSpotFormDialog from "./UpdateSpotFormDialog";
 
 interface SpotTableProps {
   spots: TGuideSpot[];
@@ -70,7 +71,8 @@ const SpotTable = ({ spots }: SpotTableProps) => {
       />
 
       {/* Edit Spot Form Dialog */}
-      <SpotFormDialog
+      <UpdateSpotFormDialog
+        spot={editingSpot!}
         open={!!editingSpot}
         onClose={() => setEditingSpot(null)}
         onSuccess={() => {
