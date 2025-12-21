@@ -47,7 +47,6 @@ export const createSpot = async (_currentState: any, formData: FormData): Promis
             payload.images = uploadedImages;
         }
         const validatedPayload = zodValidator(payload, createSpotValidationSchemaForServer).data
-        console.log('cllflff');
         const res = await serverFetch.post("/guide-spot", {
             body: JSON.stringify(validatedPayload),
             headers: {

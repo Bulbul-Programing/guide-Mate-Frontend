@@ -1,6 +1,5 @@
 
 import Image from 'next/image';
-
 import { TGuideSpot } from '@/types/GuideSpot';
 import TourDetailsSlider from './TourDetailsSlider';
 import BookNow from './BookNow';
@@ -20,7 +19,6 @@ const TourDetails = ({ tour }: TourDetailsProps) => {
             : null;
     return (
         <section className="max-w-7xl mx-auto px-6 py-12">
-            {/* ================= IMAGE SLIDER ================= */}
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <TourDetailsSlider images={tour.images} />
 
@@ -141,9 +139,6 @@ const TourDetails = ({ tour }: TourDetailsProps) => {
                         </p>
 
                         <BookNow guideSpotId={tour.id} />
-                        {/* <button className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition">
-                            Book Now
-                        </button> */}
 
                         <p className="text-xs text-muted-foreground mt-4 text-center">
                             Instant confirmation • No hidden fees

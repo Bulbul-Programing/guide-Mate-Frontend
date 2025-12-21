@@ -84,7 +84,12 @@ export const adminNavItems: NavSection[] = [
                 href: "/admin/dashboard/user-management",
                 icon: "User",
                 roles: ["ADMIN"],
-            },
+            }
+        ],
+    },
+    {
+        title: "Spot Management",
+        items: [
             {
                 title: "Tour Spot",
                 href: "/admin/dashboard/guide-spot",
@@ -97,7 +102,18 @@ export const adminNavItems: NavSection[] = [
                 icon: "DollarSign",
                 roles: ["ADMIN"],
             },
-        ],
+        ]
+    },
+    {
+        title: "Coupon Management",
+        items: [
+            {
+                title: "Coupon",
+                href: "/admin/dashboard/coupon",
+                icon: "Percent",
+                roles: ["ADMIN"],
+            }
+        ]
     }
 ]
 

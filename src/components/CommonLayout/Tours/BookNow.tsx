@@ -12,10 +12,8 @@ const BookNow = ({ guideSpotId }: { guideSpotId: string }) => {
     const [isBookingOpen, setIsBookingOpen] = useState(false);
     const [dialogKey, setDialogKey] = useState(0);
 
-    /* ---------- handlers ---------- */
-
     const handleOpenBooking = () => {
-        setDialogKey((prev) => prev + 1); // force remount
+        setDialogKey((prev) => prev + 1);
         setIsBookingOpen(true);
     };
 

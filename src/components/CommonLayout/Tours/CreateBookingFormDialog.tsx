@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { FormEvent, useActionState, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -13,12 +13,19 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { createBooking } from "@/service/Booking/CreateBooking";
+import { useDebounce } from "@/hooks/useDebounce";
+import { checkExistCoupon } from "@/service/Coupon/CheckingCoupon";
 
 interface ICreateBookingFormDialogProps {
     open: boolean;
     onClose: () => void;
     onSuccess: () => void;
     guideSpotId: string;
+}
+
+interface couponResponse {
+    success: boolean | null;
+    message: string
 }
 
 const CreateBookingFormDialog = ({
@@ -28,14 +35,47 @@ const CreateBookingFormDialog = ({
     guideSpotId,
 }: ICreateBookingFormDialogProps) => {
     const formRef = useRef<HTMLFormElement>(null);
-
     const [state, formAction, pending] = useActionState(createBooking, null);
     const prevStateRef = useRef(state);
+    const [couponValue, setCouponValue] = useState('')
+    const [loading, setLoading] = useState(false)
+    const debouncedValue = useDebounce(couponValue, 500)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [couponRes, setCouponRes] = useState<couponResponse | any>({
+        status: null,
+        message: '',
+    })
 
     const handleClose = () => {
         formRef.current?.reset();
         onClose();
     };
+
+    useEffect(() => {
+        let isMounted = true
+
+        const checkingCouponValue = async () => {
+            if (!debouncedValue) {
+                setCouponRes({ status: null, message: '' })
+                return
+            }
+            setLoading(true)
+            const result = await checkExistCoupon(debouncedValue)
+            setLoading(false)
+            if (isMounted) {
+                setCouponRes({
+                    status: result?.success ?? false,
+                    message: result?.message ?? 'Something went wrong',
+                })
+            }
+        }
+
+        checkingCouponValue()
+
+        return () => {
+            isMounted = false
+        }
+    }, [debouncedValue])
 
     useEffect(() => {
         if (state === prevStateRef.current) return;
@@ -92,6 +132,26 @@ const CreateBookingFormDialog = ({
                             min={new Date().toISOString().split("T")[0]}
                         />
                         <InputFieldError field="endDate" state={state} />
+                    </Field>
+
+                    {/* CouponCode */}
+                    <Field>
+                        <FieldLabel htmlFor="couponCode">Coupon Code</FieldLabel>
+                        <Input
+                            onChange={(e) => setCouponValue(e.currentTarget.value)}
+                            id="couponCode"
+                            name="couponCode"
+                            type="text"
+                        />
+                        {debouncedValue.length > 0 && (
+                            loading ? (
+                                <span className="text-gray-400">Checking coupon...</span>
+                            ) : (
+                                <span className={couponRes.status ? 'text-blue-400' : 'text-red-400'}>
+                                    {couponRes.message}
+                                </span>
+                            )
+                        )}
                     </Field>
 
                     {/* Footer */}

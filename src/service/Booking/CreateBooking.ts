@@ -4,9 +4,11 @@ import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
 import { createBookingValidationSchema } from "@/zod/Booking/createBooking";
 import { revalidateTag } from "next/cache";
-import { getCookie } from "../auth/tokenHandlers";
+import { deleteCookie, getCookie } from "../auth/tokenHandlers";
 import { NextResponse } from "next/server";
 import { redirect, RedirectType } from "next/navigation";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { toast } from "sonner";
 
 export const createBooking = async (
     _currentState: any,
@@ -18,6 +20,7 @@ export const createBooking = async (
             guideSpotId: formData.get("guideSpotId"),
             startDate: formData.get("startDate"),
             endDate: formData.get("endDate"),
+            couponCode: formData.get("couponCode"),
         };
 
         const validateResult = zodValidator(
@@ -39,6 +42,22 @@ export const createBooking = async (
         const accessToken = await getCookie("accessToken")
         if (!accessToken) {
             redirect('/login', RedirectType.replace)
+        }
+
+        if (accessToken) {
+            const verifiedToken: JwtPayload | string = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRETE as string)
+            if (typeof verifiedToken === "string") {
+                await deleteCookie("accessToken");
+                await deleteCookie("refreshToken");
+                return NextResponse.redirect(new URL('/login'));
+            }
+
+            if (verifiedToken.role !== "TRAVELER") {
+                return {
+                    success: false,
+                    message: ` ${verifiedToken.role} Can not Crete booking`,
+                }
+            }
         }
 
         /* ---------------- API request ---------------- */
