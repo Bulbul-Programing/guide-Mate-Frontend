@@ -6,9 +6,16 @@ import { getNewAccessToken } from './service/auth/auth.service';
 import { deleteCookie, getCookie } from './service/auth/tokenHandlers';
 import { getUserInfo } from './service/auth/getUserInfo';
 import { verifyResetPasswordToken } from './lib/jwtHanlders';
+import { isAllowedVisitorPath } from './utils/isAllowedVisitorPath';
 
 export async function proxy(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
+    if (isAllowedVisitorPath(pathname)) {
+        const res = NextResponse.next();
+        res.headers.set("x-visitor-path", pathname);
+        return res;
+    }
+
     const hasTokenRefreshedParam = request.nextUrl.searchParams.has('tokenRefreshed');
 
     // If coming back after token refresh, remove the param and continue
