@@ -1,3 +1,4 @@
+import { number } from "zod";
 import { TourCategory } from "./TourCategory";
 
 // User type
@@ -34,6 +35,7 @@ export type TGuideSpot = {
     description: string;
     itinerary: string;
     category: TourCategory;
+    totalBookingCount: number;
     durationDays: number;
     maxGroupSize: number;
     meetingPoint: string;

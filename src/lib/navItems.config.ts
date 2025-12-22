@@ -10,12 +10,6 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
         {
             items: [
                 {
-                    title: "Home",
-                    href: "/",
-                    icon: "Home", // ✅ String
-                    roles: ["TRAVELER", "GUIDE", "ADMIN"],
-                },
-                {
                     title: "My Profile",
                     href: `/my-profile`,
                     icon: "User",
@@ -27,7 +21,12 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
                     icon: "Settings", // ✅ String
                     roles: ["TRAVELER", "GUIDE", "ADMIN"],
                 },
-
+                {
+                    title: "Home",
+                    href: "/",
+                    icon: "Home", // ✅ String
+                    roles: ["TRAVELER", "GUIDE", "ADMIN"],
+                }
             ]
         }
     ]
@@ -36,6 +35,17 @@ export const getCommonNavItems = (role: UserRole): NavSection[] => {
 export const getTravelerNavItem = async (): Promise<NavSection[]> => {
 
     return [
+        {
+            title: "Dashboard",
+            items: [
+                {
+                    title: "Dashboard",
+                    href: "/traveler/dashboard",
+                    icon: "LayoutDashboard",
+                    roles: ["TRAVELER"],
+                }
+            ],
+        },
         {
             title: "Tour Management",
             items: [
@@ -54,6 +64,17 @@ export const getTravelerNavItem = async (): Promise<NavSection[]> => {
 export const getGuideNavItems = async (): Promise<NavSection[]> => {
 
     return [
+        {
+            title: "Dashboard",
+            items: [
+                {
+                    title: "Dashboard",
+                    href: "/guide/dashboard",
+                    icon: "LayoutDashboard",
+                    roles: ["GUIDE"],
+                }
+            ],
+        },
         {
             title: "Spots",
             items: [
@@ -76,6 +97,17 @@ export const getGuideNavItems = async (): Promise<NavSection[]> => {
 }
 
 export const adminNavItems: NavSection[] = [
+    {
+        title: "Dashboard",
+        items: [
+            {
+                title: "Dashboard",
+                href: "/admin/dashboard",
+                icon: "LayoutDashboard",
+                roles: ["ADMIN"],
+            }
+        ],
+    },
     {
         title: "User Management",
         items: [
@@ -122,17 +154,11 @@ export const getNavItemsByRole = async (role: UserRole): Promise<NavSection[]> =
 
     switch (role) {
         case "ADMIN":
-            return [...commonNavItems, ...adminNavItems];
+            return [...adminNavItems, ...commonNavItems,];
         case "TRAVELER":
-            return [...commonNavItems,
-            // ...doctorNavItems
-            ...await getTravelerNavItem()
-            ];
+            return [...await getTravelerNavItem(), ...commonNavItems];
         case "GUIDE":
-            return [...commonNavItems,
-            // ...patientNavItems
-            ...await getGuideNavItems()
-            ];
+            return [...await getGuideNavItems(), ...commonNavItems];
         default:
             return [];
     }

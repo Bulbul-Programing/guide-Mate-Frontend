@@ -18,11 +18,6 @@ export const incrementVisitor = async (pathName: string): Promise<any> => {
         });
 
         const result = await res.json();
-
-        if (result.success) {
-            revalidateTag("visitorCount", { expire: 0 });
-        }
-
         return result;
     } catch (error: any) {
         if (error?.digest?.startsWith("NEXT_REDIRECT")) {

@@ -23,13 +23,13 @@ const ToursPage = async ({
     return (
         <div className='py-20 px-5 md:px-10 lg:px-10 space-y-7'>
             <TourSearch />
-            <Suspense fallback={<ToursPageSkeleton />}>
-                <Tours tours={spotsResult?.data} />
-                <TablePagination
-                    currentPage={spotsResult?.meta?.page || 1}
-                    totalPages={totalPages || 1}
-                />
-            </Suspense>
+            {/* <Suspense fallback={<ToursPageSkeleton />}> */}
+            <Tours tours={spotsResult?.data} />
+            <TablePagination
+                currentPage={spotsResult?.meta?.page || 1}
+                totalPages={totalPages || 1}
+            />
+            {/* </Suspense> */}
 
         </div>
     );

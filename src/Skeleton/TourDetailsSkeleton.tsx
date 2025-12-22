@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const TourDetailsSkeleton = () => {
   return (
-    <div className="max-w-6xl mx-auto py-12 px-6">
+    <div className="max-w-6xl mx-auto py-10 md:py-20 px-5">
       {/* Hero Image */}
       <div className="relative w-full h-[380px] md:h-[480px] rounded-3xl overflow-hidden shadow-xl">
         <Skeleton className="w-full h-full" />

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { logoutUser } from "@/service/auth/logoutUser";
 import { UserInfo } from "@/types/UserInfo";
-import { Settings, User } from "lucide-react";
+import { LayoutDashboard, Settings, User } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
@@ -44,6 +44,12 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
+          <Link href={`/${userInfo.role.toLocaleLowerCase()}/dashboard`} className="cursor-pointer">
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            Dashboard
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href={"/my-profile"} className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
             Profile
@@ -56,7 +62,7 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-          <LogoutButton />
+        <LogoutButton />
       </DropdownMenuContent>
     </DropdownMenu>
   );

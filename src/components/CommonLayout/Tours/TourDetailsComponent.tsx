@@ -18,7 +18,7 @@ const TourDetails = ({ tour }: TourDetailsProps) => {
             ).toFixed(1)
             : null;
     return (
-        <section className="max-w-7xl mx-auto px-6 py-12">
+        <section className="max-w-7xl mx-auto px-0 md:px-6 py-12">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <TourDetailsSlider images={tour.images} />
 
@@ -28,11 +28,12 @@ const TourDetails = ({ tour }: TourDetailsProps) => {
                 </span>
 
                 {/* Floating Info */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-[92%] md:w-[70%] bg-background/80 backdrop-blur-xl border border-border rounded-2xl shadow-xl p-5 flex flex-wrap justify-between gap-3">
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 w-[92%] md:w-[70%] bg-background/30 backdrop-blur-xs border border-border rounded-2xl shadow-xl p-5 flex flex-wrap justify-between gap-3">
                     <InfoBadge label={`${tour.durationDays} Days`} />
                     <InfoBadge label={`Max ${tour.maxGroupSize} People`} />
                     <InfoBadge label={tour.city} />
                     <InfoBadge label={tour.meetingPoint} />
+                    <InfoBadge className='bg-primary text-white' label={`Total Booked : ${tour.totalBookingCount.toString()}`} />
                 </div>
             </div>
 
@@ -100,7 +101,7 @@ const TourDetails = ({ tour }: TourDetailsProps) => {
                                 </span>
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="space-y-4 max-h-[250px] overflow-y-scroll">
                                 {reviews.map((review) => (
                                     <div
                                         key={review.id}
@@ -154,8 +155,8 @@ export default TourDetails;
 
 /* ================= SMALL COMPONENT ================= */
 
-const InfoBadge = ({ label }: { label: string }) => (
-    <div className="px-3 py-2 rounded-lg bg-muted border border-border text-sm font-medium">
+const InfoBadge = ({ label, className }: { label: string, className?: string }) => (
+    <div className={`${className} px-3 py-2 rounded-lg bg-muted border border-border text-sm font-medium`}>
         {label}
     </div>
 );

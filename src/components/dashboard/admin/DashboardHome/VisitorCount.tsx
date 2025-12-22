@@ -28,7 +28,7 @@ const formatPath = (path: string) => {
 };
 
 const VisitorCount = ({ visitors }: VisitorProps) => {
-    console.log(visitors);
+
     return (
         <div>
             <h1 className="text-2xl font-bold">Total Visitors</h1>
