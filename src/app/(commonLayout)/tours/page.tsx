@@ -1,11 +1,15 @@
-import PopularDestinationSlider from '@/components/CommonLayout/Home/PopularDestinationSlider';
 import Tours from '@/components/CommonLayout/Tours/Tours';
 import TourSearch from '@/components/CommonLayout/Tours/TourSearch';
 import TablePagination from '@/components/shared/TablePagination';
 import { queryStringFormatter } from '@/lib/formatters';
 import { getAllSpots } from '@/service/spotManagement/spotManagement';
-import ToursPageSkeleton from '@/Skeleton/ToursPageSkeleton';
-import React, { Suspense } from 'react';
+import { Metadata } from 'next';
+
+
+export const metadata: Metadata = {
+    title: "Tours – Discover Unique Experiences",
+  description: "Explore detailed information about our tours, including itineraries, guides, duration, and reviews. Book your next adventure with confidence and ease.",
+};
 
 const ToursPage = async ({
     searchParams,

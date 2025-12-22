@@ -52,24 +52,9 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
                 </div>
                 <FieldGroup className="mt-4">
                     <Field>
-                        <Button type="submit" disabled={isPending}>
+                        <Button type="submit" className="text-white" disabled={isPending}>
                             {isPending ? "Logging in..." : "Login"}
                         </Button>
-
-                        <FieldDescription className="px-6 text-center">
-                            Don&apos;t have an account?{" "}
-                            <a href="/register" className=" hover:underline">
-                                Sign up
-                            </a>
-                        </FieldDescription>
-                        <FieldDescription className="px-6 text-center">
-                            <a
-                                href="/forgot-password"
-                                className=" hover:underline"
-                            >
-                                Forgot password?
-                            </a>
-                        </FieldDescription>
                     </Field>
                 </FieldGroup>
             </FieldGroup>

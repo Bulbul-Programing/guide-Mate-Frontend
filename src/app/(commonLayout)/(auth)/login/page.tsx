@@ -1,4 +1,7 @@
+import CredentialLogin from '@/components/CommonLayout/Auth/CredentialLogin';
 import LoginForm from '@/components/CommonLayout/Auth/LoginForm';
+import { FieldDescription } from '@/components/ui/field';
+import Link from 'next/link';
 import React from 'react';
 
 const LoginPage = async ({
@@ -17,6 +20,23 @@ const LoginPage = async ({
                     </p>
                 </div>
                 <LoginForm redirect={params.redirect} />
+                <CredentialLogin />
+                <div>
+                    <FieldDescription className="px-6 text-center">
+                        Don&apos;t have an account?{" "}
+                        <Link href="/register" className=" hover:underline">
+                            Sign up
+                        </Link>
+                    </FieldDescription>
+                    <FieldDescription className="px-6 text-center">
+                        <Link
+                            href="/forgot-password"
+                            className=" hover:underline"
+                        >
+                            Forgot password?
+                        </Link>
+                    </FieldDescription>
+                </div>
             </div>
         </div>
     );

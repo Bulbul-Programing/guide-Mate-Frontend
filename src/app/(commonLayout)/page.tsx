@@ -1,4 +1,5 @@
 import AdventureHero from '@/components/CommonLayout/Home/AdventureHero';
+import { FaqAccordion } from '@/components/CommonLayout/Home/FaqAccordion';
 import Hero from '@/components/CommonLayout/Home/Hero';
 import PopularDestination from '@/components/CommonLayout/Home/PopularDestination';
 import Subscribe from '@/components/CommonLayout/Home/Subscribe';
@@ -13,6 +14,7 @@ const page = () => {
             <PopularDestination />
             <AdventureHero/>
             <Subscribe />
+            <FaqAccordion />
         </div>
     );
 };

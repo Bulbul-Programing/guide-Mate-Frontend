@@ -12,14 +12,14 @@ const AboutPage = () => {
         "url('https://res.cloudinary.com/depy0i4bl/image/upload/v1765566227/15_xknxbs.jpg')",
     }}
   >
-    <div className="absolute inset-0 bg-background/70 dark:bg-background/80" />
+    <div className="absolute inset-0 bg-black/40" />
     <div className="relative max-w-6xl mx-auto">
-      <p className="uppercase tracking-widest text-sm text-muted-foreground mb-3">
+      <p className="uppercase tracking-widest text-sm text-white mb-3">
         The Best Travel Agency
       </p>
-      <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+      <h1 className="text-4xl md:text-5xl text-white font-bold leading-tight">
         We Helping You Find <br />
-        <span className="text-primary">Your Dream</span> Vacation
+        <span className="text-primary [text-shadow:-1px_-1px_0_rgb(255,255,255),1px_-1px_0_rgb(255,255,255),-1px_1px_0_rgb(255,255,255),1px_1px_0_rgb(255,255,255)]">Your Dream</span> Vacation
       </h1>
     </div>
   </section>
